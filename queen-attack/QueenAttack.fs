@@ -61,8 +61,6 @@ let isOnDownRightDiagonal (queen1: int * int) (queen2: int * int) =
     diagonal
     |> List.contains queen2
 
-
-
 let isOnTheSameDiagonal (queen1: int * int) (queen2: int * int) = 
     (isOnUpperLeftDiagonal queen1 queen2) || (isOnUpperRightDiagonal queen1 queen2) ||
     (isOnDownLeftDiagonal queen1 queen2) || (isOnDownRightDiagonal queen1 queen2)
