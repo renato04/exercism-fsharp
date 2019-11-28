@@ -1,16 +1,14 @@
 ﻿module Raindrops
 
-let factors = Map.empty.
-                Add(3, "Pling").
-                Add(5, "Plang").
-                Add(7, "Plong")
+let factors = [(3, "Pling"); (5, "Plang"); (7, "Plong")]
 
 let convert (number: int): string = 
+    let getResponse factors =
+        if List.isEmpty factors then 
+            number.ToString()
+        else
+            List.fold (fun state value -> state + snd value) "" factors
+    
     factors
-    |> Map.filter (fun factor _ -> number % factor = 0)
-    |> (fun factors -> 
-            if Map.isEmpty factors then 
-                number.ToString()
-            else
-                Map.fold (fun state _ value -> state + value) "" factors
-       ) 
+    |> List.filter (fun factor -> number % fst factor = 0)
+    |> getResponse
