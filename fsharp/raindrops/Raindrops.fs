@@ -7,8 +7,8 @@ let convert (number: int): string =
         if List.isEmpty factors then 
             number.ToString()
         else
-            List.fold (fun state value -> state + snd value) "" factors
-    
+            String.concat "" factors    
     factors
-    |> List.filter (fun factor -> number % fst factor = 0)
+    |> List.filter (fun (factor, _) -> number % factor = 0)
+    |> List.map  (fun (_, output) -> output)
     |> getResponse
