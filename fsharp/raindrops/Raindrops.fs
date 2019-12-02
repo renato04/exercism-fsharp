@@ -6,9 +6,6 @@ let convert (number: int): string =
     factors
     |> List.filter (fun (factor, _) -> number % factor = 0)
     |> List.map snd
-    |> (fun factors -> 
-            if List.isEmpty factors then 
-                number.ToString()
-            else
-                String.concat "" factors    
-        )
+    |> function 
+      | [] -> number.ToString ()
+      | factors -> String.concat "" factors
