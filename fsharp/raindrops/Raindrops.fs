@@ -10,5 +10,5 @@ let convert (number: int): string =
             String.concat "" factors    
     factors
     |> List.filter (fun (factor, _) -> number % factor = 0)
-    |> List.map  (fun (_, output) -> output)
+    |> List.map  snd
     |> getResponse
