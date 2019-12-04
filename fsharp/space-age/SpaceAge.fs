@@ -1,6 +1,8 @@
 ﻿module SpaceAge
 
-// TODO: define the Planet type
+[<Literal>]
+let EarthYearSeconds = 31557600.0 
+
 type Planet =
 | Earth
 | Mercury
@@ -11,25 +13,20 @@ type Planet =
 | Uranus
 | Neptune
 
-let getPlanetAge planet =
-    let earthYearSeconds = 31557600.0
+let getPlanetOrbit planet =
     match planet with
-    | Earth ->  earthYearSeconds
-    | Mercury ->  earthYearSeconds *  0.2408467
-    | Venus -> earthYearSeconds * 0.61519726
-    | Mars ->  earthYearSeconds * 1.8808158
-    | Jupiter -> earthYearSeconds * 11.862615
-    | Saturn -> earthYearSeconds * 29.447498
-    | Uranus ->  earthYearSeconds * 84.016846
-    | Neptune ->  earthYearSeconds * 164.79132
+    | Earth -> 1.0
+    | Mercury -> 0.2408467
+    | Venus -> 0.61519726
+    | Mars -> 1.8808158
+    | Jupiter -> 11.862615
+    | Saturn -> 29.447498
+    | Uranus -> 84.016846
+    | Neptune -> 164.79132
+
+let getPlanetAge planet =
+    EarthYearSeconds * getPlanetOrbit planet
 
 let age (planet: Planet) (seconds: int64): float = 
-    match planet with
-    | Earth -> float (seconds) / getPlanetAge planet
-    | Mercury -> float (seconds) / getPlanetAge planet
-    | Venus -> float (seconds) / getPlanetAge planet
-    | Mars -> float (seconds) / getPlanetAge planet
-    | Jupiter -> float (seconds) / getPlanetAge planet
-    | Saturn -> float (seconds) / getPlanetAge planet
-    | Uranus -> float (seconds) / getPlanetAge planet
-    | Neptune -> float (seconds) / getPlanetAge planet
+    float seconds / getPlanetAge planet
+    
