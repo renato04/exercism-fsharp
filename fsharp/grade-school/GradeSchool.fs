@@ -13,13 +13,11 @@ let add (student: string) (studentGrade: int) (school: School): School =
     let addTo school grade students = 
         Map.add grade students school
 
-    let addStudent = addTo school studentGrade
-    
     school
     |> grade studentGrade
     |> List.append [student]
     |> List.sort
-    |> addStudent
+    |> addTo school studentGrade
 
 let roster (school: School): string list =
     school
