@@ -4,14 +4,14 @@
 let EarthYearSeconds = 31557600.0 
 
 type Planet =
-| Earth
-| Mercury
-| Venus
-| Mars
-| Jupiter
-| Saturn
-| Uranus
-| Neptune
+    | Earth
+    | Mercury
+    | Venus
+    | Mars
+    | Jupiter
+    | Saturn
+    | Uranus
+    | Neptune
 
 let getPlanetOrbit planet =
     match planet with
