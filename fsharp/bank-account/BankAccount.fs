@@ -1,8 +1,11 @@
 ﻿module BankAccount
+open System
+
+let _lock = Object()
 
 type Account ={
-    Balance: decimal option list
-    Opened: bool
+    mutable Balance: decimal option list
+    mutable Opened: bool
 }
 
 let mkBankAccount() = 
@@ -11,20 +14,23 @@ let mkBankAccount() =
 let openAccount account = 
     {account with Opened = true}
 
-let closeAccount account = failwith "You need to implement this function."
+let closeAccount account =
+    {account with Opened = false}    
 
 let getBalance account = 
-    account.Balance
-    |> List.sumBy (fun value -> Option.defaultValue 0m value)
-    |> Some
+    if account.Opened then
+        account.Balance
+        |> List.sumBy (fun value -> Option.defaultValue 0m value)
+        |> Some
+    else 
+        None
 
 let updateBalance change account =
-    
-    let update transactions =
-        {account with Balance = transactions}
-    
-    account.Balance
-    |> List.append [Some(change)]
-    |> update
+    lock _lock (fun () -> 
+        account.Balance <- account.Balance
+        |> List.append [Some(change)]
+    )
+
+    account
    
     
