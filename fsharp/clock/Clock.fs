@@ -1,9 +1,35 @@
 module Clock
 
-let create hours minutes = failwith "You need to implement this function."
+[<Literal>]
+let MinutesPerDay = 1440
 
-let add minutes clock = failwith "You need to implement this function."
+[<Literal>]
+let MinutesPerMinute = 60
 
-let subtract minutes clock = failwith "You need to implement this function."
+let private normalize clock =
+    let processNegative =
+        let completeNegativeDays = -clock / MinutesPerDay
+        clock + (1 + completeNegativeDays) * MinutesPerDay
+    
+    if clock < 0 then
+        processNegative
+    else
+        clock % MinutesPerDay
 
-let display clock = failwith "You need to implement this function."
+let create hours minutes = 
+    (hours * MinutesPerMinute + minutes) 
+    |> normalize
+
+let add minutes clock = 
+    minutes + clock 
+    |> normalize
+
+let subtract minutes clock = 
+    add (-minutes) clock 
+    |> normalize
+
+let minutes clock = clock % MinutesPerMinute
+
+let hours clock = clock / MinutesPerMinute
+
+let display clock = sprintf "%02d:%02d" (hours clock) (minutes clock)
