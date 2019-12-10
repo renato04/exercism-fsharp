@@ -1,9 +1,7 @@
 module Clock
 
-[<Literal>]
 let MinutesPerDay = 1440
 
-[<Literal>]
 let MinutesPerMinute = 60
 
 let private normalize clock =
