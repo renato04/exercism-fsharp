@@ -2,19 +2,11 @@
 open System
 
 let isYelling (input: string) =
-    let rec innerLoop isUpper array =
-        match array with
-        | [] -> isUpper
-        | head :: tail -> 
-            match Char.IsLower(head) with
-            | true -> innerLoop false []
-            | false -> innerLoop true tail
-
-    input
-    |> Seq.filter (fun s -> Char.IsLetter(s))
-    |> Seq.toList
-    |> innerLoop false
-
+    input 
+    |> Seq.exists Char.IsLetter 
+        && input |> Seq.exists Char.IsLower 
+    |> not
+ 
 let isQuestion (phrase: string) =
     let validPhrase = phrase.Trim().ToCharArray()
     match validPhrase with
@@ -27,11 +19,35 @@ let isYellingAQuestion (phrase: string) =
 let isSayingAnything (phrase: string) =
     phrase.Trim()
     |> String.IsNullOrEmpty
-   
+
+let (|YellingQuestion|_|) (input: string)=
+    if isYellingAQuestion input then
+        Some("Calm down, I know what I'm doing!")
+    else
+        None
+
+let (|Question|_|) (input: string)=
+    if isQuestion input then
+        Some("Sure.")
+    else
+        None
+
+let (|Yelling|_|) (input: string)=
+    if isYelling input then
+        Some("Whoa, chill out!")
+    else
+        None
+
+let (|SayingAnything|_|) (input: string)=
+    if isSayingAnything input then
+        Some("Fine. Be that way!")
+    else
+        None        
+
 let response (input: string): string = 
     match input with
-    | _ when isYellingAQuestion input -> "Calm down, I know what I'm doing!"
-    | _ when isQuestion input -> "Sure."
-    | _ when isYelling input -> "Whoa, chill out!"
-    | _ when isSayingAnything input -> "Fine. Be that way!"
+    | YellingQuestion answer -> answer
+    | Question answer -> answer
+    | Yelling answer -> answer
+    | SayingAnything answer -> answer
     | _ -> "Whatever."
