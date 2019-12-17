@@ -1,53 +1,29 @@
 ﻿module Bob
 open System
 
-let isYelling (input: string) =
-    input 
-    |> Seq.exists Char.IsLetter 
-        && input |> Seq.exists Char.IsLower 
-    |> not
- 
-let isQuestion (phrase: string) =
-    let validPhrase = phrase.Trim().ToCharArray()
-    match validPhrase with
-    | [||] -> false
-    | _ -> (validPhrase |> Seq.last) = '?'
-         
-let isYellingAQuestion (phrase: string) =
-    isYelling phrase &&  isQuestion phrase
-
-let isSayingAnything (phrase: string) =
-    phrase.Trim()
-    |> String.IsNullOrEmpty
-
-let (|YellingQuestion|_|) (input: string)=
-    if isYellingAQuestion input then
-        Some("Calm down, I know what I'm doing!")
-    else
-        None
-
 let (|Question|_|) (input: string)=
-    if isQuestion input then
-        Some("Sure.")
+    if input.Trim().EndsWith("?") then
+        Some Question
     else
         None
 
-let (|Yelling|_|) (input: string)=
-    if isYelling input then
-        Some("Whoa, chill out!")
+let (|Yelling|_|) (input: string) =
+    if input |> Seq.exists Char.IsLetter 
+       && input |> Seq.exists Char.IsLower |> not then
+        Some Yelling
     else
         None
 
 let (|SayingAnything|_|) (input: string)=
-    if isSayingAnything input then
-        Some("Fine. Be that way!")
+    if String.IsNullOrWhiteSpace(input) then
+        Some SayingAnything
     else
         None        
 
 let response (input: string): string = 
     match input with
-    | YellingQuestion answer -> answer
-    | Question answer -> answer
-    | Yelling answer -> answer
-    | SayingAnything answer -> answer
+    | Yelling & Question -> "Calm down, I know what I'm doing!"
+    | Question -> "Sure."
+    | Yelling -> "Whoa, chill out!"
+    | SayingAnything -> "Fine. Be that way!"
     | _ -> "Whatever."
