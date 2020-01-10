@@ -1,4 +1,5 @@
 ﻿module KindergartenGarden
+open System
 
 // TODO: define the Plant type
 type Plant =
@@ -12,17 +13,23 @@ let charToPlant char =
     | 'C' -> Clover
     | 'G' -> Grass
     | 'R' -> Radishes
-    | _   -> Violets
+    | 'V'  -> Violets
+    | _ -> failwith "Invalid Character"
 
 
 let plants (diagram: string) (student: string) = 
-    let diagrams = diagram.ToUpper().Split('\n')
+
+
     let position = (int (student.[0]) - int 'A') * 2
-    
-    [ 
-        diagrams.[0].[position]; 
-        diagrams.[0].[position + 1]; 
-        diagrams.[1].[position]; 
-        diagrams.[1].[position + 1]
-    ] 
-    |> List.map charToPlant
+
+    diagram.ToUpper().Split('\n')
+    |> Seq.collect (fun diagram -> [diagram.[position]; 
+        diagram.[position + 1]; ] )
+    // [ 
+    //     diagrams.[0].[position]; 
+    //     diagrams.[0].[position + 1]; 
+    //     diagrams.[1].[position]; 
+    //     diagrams.[1].[position + 1]
+    // ] 
+    |> Seq.map charToPlant
+    |> Seq.toList
