@@ -2,8 +2,8 @@
 
 let isPangram (input: string): bool = 
     let verifyLength length=
-        let alphabetSize = 26
-        length = alphabetSize
+        let alphabetLength = 26
+        length = alphabetLength
         
     input.Trim().ToLower()
     |> Seq.filter (fun c -> System.Char.IsLetter(c))
